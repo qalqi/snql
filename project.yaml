@@ -5,6 +5,30 @@ schema: ./schema.graphql
 network:
   endpoint: wss://chi1.social.network
   types: {
+  "DepositNonce": "u64",
+  "Exchange": {
+    "lp_token": "AssetId",
+    "trade_token": "AssetId",
+    "trade_token_amount": "Balance",
+    "native_token_amount": "CurrencyOf"
+  },
+  "ProposalStatus" {
+    "_enum": [
+      "Initiated",
+      "Approved",
+      "Rejected"
+    ]
+  },
+  "ProposalVotes" {
+    "votes_for": "Vec<AccountId>",
+    "votes_against": "Vec<AccountId>",
+    "status": "ProposalStatus",
+    "expiry": "BlockNumber"
+  },
+  TokenDossier {
+    "symbol": "Bytes",
+  },
+  "TokenId": "u32",
   "AttributeTransaction": {
     "signature": "Signature",
     "name": "Vec<u8>",
