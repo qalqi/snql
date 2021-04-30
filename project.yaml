@@ -12,20 +12,20 @@ network:
     "trade_token_amount": "Balance",
     "native_token_amount": "CurrencyOf"
   },
-  "ProposalStatus" {
+  "ProposalStatus": {
     "_enum": [
       "Initiated",
       "Approved",
       "Rejected"
     ]
   },
-  "ProposalVotes" {
+  "ProposalVotes": {
     "votes_for": "Vec<AccountId>",
     "votes_against": "Vec<AccountId>",
     "status": "ProposalStatus",
     "expiry": "BlockNumber"
   },
-  TokenDossier {
+  "TokenDossier": {
     "symbol": "Bytes",
   },
   "TokenId": "u32",
