@@ -1,17 +1,73 @@
-type starterEntity @entity {
+type Block @entity {
+  id: ID!
 
-  id: ID! #id is a required field
+  number: BigInt
+  timestamp: Date
+  parentHash: String
+  specVersion: Int
 
-  field1: Int!
+  extrinsics: [Extrinsic] @derivedFrom(field: "block")
+  events: [Event] @derivedFrom(field: "block")
+  transfers: [Transfer] @derivedFrom(field: "block")
+}
 
-  field2: String #filed2 is an optional field
+type Extrinsic @entity {
+  id: ID!
 
-  field3: BigInt
+  method: String
+  section: String
+  args: String
+  signer: Account #create relation to account
+  nonce: BigInt
+  timestamp: Date
+  signature: String
+  tip: BigInt
+  isSigned: Boolean
+  isSuccess: Boolean
 
-  field4: Date
+  block: Block #create relation to block
+  events: [Event] @derivedFrom(field: "extrinsic")
+}
 
-  field5: Boolean
+type Event @entity {
+  id: ID!
 
+  index: Int!
+  section: String!
+  method: String!
+  data: String!
+  timestamp: Date
 
+  block: Block #create relation to block
+  extrinsic: Extrinsic #create relation to extrinsic
+}
 
+type Account @entity {
+  id: ID!
+
+  extrinsics: [Extrinsic] @derivedFrom(field: "signer")
+  transferIn: [Transfer] @derivedFrom(field: "to")
+  transferOut: [Transfer] @derivedFrom(field: "from")
+}
+
+type Token @entity {
+  id: ID!
+
+  decimal: Int
+  name: String
+}
+
+type Transfer @entity {
+  id: ID!
+
+  from: Account
+  to: Account
+  token: Token
+  amount: BigInt
+  timestamp: Date
+  fee: BigInt
+  blockNumber: BigInt
+  # TODO add index field
+
+  block: Block #create relation to block
 }
